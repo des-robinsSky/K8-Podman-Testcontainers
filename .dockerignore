@@ -1,0 +1,16 @@
+.git
+.idea
+.gradle
+
+gradle/
+
+**/build/
+**/out/
+**/node_modules/
+
+Dockerfile
+gradlew
+gradlew.bat
+podman-pod.yml
+**/*.log
+**/*.zip
