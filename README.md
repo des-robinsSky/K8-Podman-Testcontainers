@@ -39,7 +39,7 @@ sources also mention changing from 'slirp4netns' etc. so there are many options 
 
 ```java
 cassandraContainer.setPortBindings(List.of("9042/tcp"));
-    cassandraContainer.setExposedPorts(List.of());
+cassandraContainer.setExposedPorts(List.of());
 ```
 
 7. Due to the issue raised in point 6 above, the PoC uses the Wait/StartStrategy mechanisms in the code block
@@ -48,7 +48,7 @@ cassandraContainer.setPortBindings(List.of("9042/tcp"));
 
 ```java
 .withStartupCheckStrategy(new IsRunningStartupCheckStrategy())
-    .waitingFor(new LogMessageWaitStrategy().withRegEx(".*Startup complete.*"));
+.waitingFor(new LogMessageWaitStrategy().withRegEx(".*Startup complete.*"));
 ```
 
 ## PoC details
