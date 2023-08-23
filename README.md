@@ -1,5 +1,13 @@
 # Spring Boot Testcontainers PoC housed in Kubernetes and using Rootless Podman and its REST interface
 
+## TL;DR
+1. Create an image for use using `docker build --platform linux/amd64 -t <image registry>/podman:v??? -f Dockerfile . --push`
+2. Update `podman-pod.yml` populating the `namespace` and `image` fields.
+3. Create a K8 pod using `kubectl apply -f podman-pod.yml`
+4. Open a terminal in the pod using `kubectl exec -it podman -- sh`
+5. In the container, run `mkdir -p /var/tmp` 
+6. Then run `.gradlew test`
+
 ## PoC constraints/caveats
 
 1. Security/Core mandated the use of the VFS storage driver. VFS is known to be less performant.
