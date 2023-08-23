@@ -6,7 +6,7 @@
 3. Create a K8 pod using `kubectl apply -f podman-pod.yml`
 4. Open a terminal in the pod using `kubectl exec -it podman -- sh`
 5. In the container, run `mkdir -p /var/tmp` 
-6. Then run `.gradlew test`
+6. Then run `./gradlew test`
 
 ## PoC constraints/caveats
 
