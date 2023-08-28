@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: podman
+  namespace: <your-namespace>
+  annotations:
+    container.apparmor.security.beta.kubernetes.io/podman: unconfined
+    container.seccomp.security.alpha.kubernetes.io/podman: unconfined
+spec:
+  securityContext:
+    fsGroup: 1000
+  containers:
+    - name: app
+      image: <your-image>
+      imagePullPolicy: Always
+      env:
+        - name: DOCKER_HOST
+          value: "tcp://localhost:9111"
+        - name: TESTCONTAINERS_RYUK_DISABLED
+          value: "true"
+        - name: STORAGE_DRIVER
+          value: "vfs"
+      command: [ "/bin/sh", "-c", "--" ]
+      args: [
+        "echo 'starting pod';
+         sleep 100000;"
+      ]
+      securityContext:
+        privileged: false
+      resources:
+        limits:
+          memory: 8Gi
+        requests:
+          cpu: "0"
+    - name: podman
+      image: <the podman image>
+      imagePullPolicy: Always
+      env:
+        - name: DOCKER_HOST
+          value: "tcp://localhost:9111"
+        - name: TESTCONTAINERS_RYUK_DISABLED
+          value: "true"
+        - name: STORAGE_DRIVER
+          value: "vfs"
+      command: [ "/bin/sh", "-c", "--" ]
+      args: [
+        "echo 'starting pod';
+         mkdir -p /var/tmp;
+         podman system service tcp:localhost:9111 -t 0 &
+         echo 'enabled api';
+         sleep 100000;"
+      ]
+      securityContext:
+        runAsUser: 1000
+        privileged: false
+      volumeMounts:
+        - mountPath: /home/podman/
+          name: podman-local
+        - mountPath: /var/
+          name: api
+        - mountPath: /tmp/
+          name: temp
+      resources:
+        limits:
+          memory: 8Gi
+        requests:
+          cpu: "0"
+  volumes:
+    - name: podman-local
+      emptyDir: { }
+    - name: api
+      emptyDir: { }
+    - name: temp
+      emptyDir: { }
