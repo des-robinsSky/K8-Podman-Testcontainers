@@ -1,15 +1,13 @@
 .git
 .idea
 .gradle
-
-gradle/
+.DS_Store
 
 **/build/
 **/out/
 **/node_modules/
 
 Dockerfile
-gradlew
 gradlew.bat
 podman-pod.yml
 **/*.log
