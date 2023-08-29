@@ -26,6 +26,7 @@ spec:
          sleep 100000;"
       ]
       securityContext:
+        runAsUser: 1000
         privileged: false
       resources:
         limits:
